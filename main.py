@@ -3,7 +3,7 @@ from db.init_db import init_database
 from fastapi.middleware.cors import CORSMiddleware
 from db.session import db_checker
 from sqlalchemy.orm import Session
-from schemas import users
+from schemas.users import UserCreate, ShowUser
 from curd import users
 import uvicorn
 
@@ -21,8 +21,8 @@ app.add_middleware(
 init_database()
 
 
-@app.post('/user')
-def index(request: users.UserBase, db: Session = Depends(db_checker)):
+@app.post('/user', response_model=ShowUser)
+def create_user(request: UserCreate, db: Session = Depends(db_checker)):
     return users.create(request, db)
 
 
