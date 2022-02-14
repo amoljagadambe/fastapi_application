@@ -1,5 +1,6 @@
-from fastapi import FastAPI, Depends, status
+from fastapi import FastAPI, Depends
 from db.init_db import init_database
+from fastapi.middleware.cors import CORSMiddleware
 from db.session import db_checker
 from sqlalchemy.orm import Session
 from schemas import users
@@ -7,6 +8,14 @@ from curd import users
 import uvicorn
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+    allow_credentials=True,
+)
 
 # initialise the database
 init_database()
